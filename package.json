@@ -27,6 +27,7 @@
     "express-session": "^1.15.6",
     "getmac": "^1.4.0",
     "parser": "^0.1.4",
+    "rollbar": "^2.3.9",
     "ssl-root-cas": "^1.2.4",
     "typeof": "^1.0.0",
     "uuid": "^3.2.1"
