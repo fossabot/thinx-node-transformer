@@ -82,65 +82,6 @@ var Transformer = function() {
   // Handlers
   //
 
-
-  // Test handler
-  // curl http://localhost:7474/do
-  //
-  app.get("/do", function(req, res) {
-
-    console.log("GET /do: ");
-
-    var job = {
-      id: server_id,
-      owner: "demo",
-      codename: "alias",
-      code: "function transformer(status, device) { return status; };",
-      params: {
-        status: "Battery 1.0V",
-        device: {
-          owner: "demo",
-          id: server_id
-        }
-      }
-    };
-
-    const code = job.code;
-    const owner = job.owner;
-    const transaction_id = job.id;
-
-    var result_status = null;
-    var status = job.params.status;
-    var result_error = null;
-    var device = job.device;
-
-    try {
-      /* jshint -W061 */
-      //eval(unescape(code)); // should fetch the transformer(status, device); function
-      eval(code); // should fetch the transformer(status, device); function
-      console.log("Running job:");
-      console.log("- codename: "+job.codename);
-      console.log("- id: "+job.id);
-      console.log("- params: "+JSON.stringify(job.params));
-      console.log("- owner: "+JSON.stringify(job.owbner));
-
-      var transformed_status = transformer(job.params.status, job.params.device); // may be dangerous if not running in closure with cleaned globals!
-      console.log("Transformed status: '" + transformed_status + "'");
-      /* jshint +W061 */
-      result_status = transformed_status;
-    } catch (e) {
-      console.log(e);
-      result_error = JSON.stringify(e);
-    }
-
-    respond(res, {
-      input: status,
-      output: result_status,
-      error: result_error
-    });
-
-
-  });
-
   app.post("/do", function(req, res) {
 
     var job;
@@ -158,7 +99,7 @@ var Transformer = function() {
 
       //code: "Ly8gTWluaW1hbCBgbm8tb3BgIFRyYW5zZm9ybWVyIChhbHdheXMgc3RhcnQgd2l0aCBjb21tZW50ISkKCnZhciB0cmFuc2Zvcm1lciA9IGZ1bmN0aW9uKHN0YXR1cywgZGV2aWNlKSB7CiAgICByZXR1cm4gc3RhdHVzOyAKfTs=",
 
-      job = {
+      jobs = [{
         id: server_id,
         owner: "demo",
         codename: "alias",
@@ -170,49 +111,52 @@ var Transformer = function() {
             id: server_id
           }
         }
-      };
+      }];
     } else {
-      job = req.body.job;
+      jobs = req.body.jobs;
     }
 
-    const code = job.code;
-    const owner = job.owner;
-    const transaction_id = job.id;
-
     var result_status = null;
-    var input_raw = job.params.status;
     var result_error = null;
 
-    try {
-      /* jshint -W061 */
-      var cleancode;
-      try {
-        cleancode = unescape(code);
-      } catch (e) {
-        cleancode = code;
-      }
-      eval(code); // should fetch the transformer(status, device); function
-      console.log("Running job:");
-      console.log("- codename: "+job.codename);
-      console.log("- id: "+job.id);
-      console.log("- params: "+JSON.stringify(job.params));
-      console.log("- owner: "+JSON.stringify(job.owner));
+    var input_raw = jobs[0].params.status;
 
-      var transformed_status = transformer(job.params.status, job.params.device); // may be dangerous if not running in closure with cleaned globals!
-      console.log("Transformed status: '" + transformed_status + "'");
-      /* jshint +W061 */
-      result_status = transformed_status;
-    } catch (e) {
-      console.log(e);
-      result_error = JSON.stringify(e);
+    for (job in jobs) {
+
+      const code = job.code;
+      const owner = job.owner;
+      const transaction_id = job.id;
+
+      try {
+        /* jshint -W061 */
+        var cleancode;
+        try {
+          cleancode = unescape(code);
+        } catch (e) {
+          cleancode = code;
+        }
+        eval(code); // should fetch the transformer(status, device); function
+        console.log("Running job:");
+        console.log("- codename: "+job.codename);
+        console.log("- id: "+job.id);
+        console.log("- params: "+JSON.stringify(job.params));
+        console.log("- owner: "+JSON.stringify(job.owner));
+
+        var transformed_status = transformer(job.params.status, job.params.device); // may be dangerous if not running in closure with cleaned globals!
+        console.log("Transformed status: '" + transformed_status + "'");
+        /* jshint +W061 */
+        result_status = transformed_status;
+      } catch (e) {
+        console.log(e);
+        result_error = JSON.stringify(e);
+      }
     }
 
     respond(res, {
-      input: job.params.status,
+      input: input_raw,
       output: result_status,
       error: result_error
     });
-
 
   });
 

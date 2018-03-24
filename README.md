@@ -24,18 +24,20 @@ HTTP POST BODY:
 
 ```
 {
-  job: {
-  id: "transaction-identifier",
-  owner: "owner-id",
-  codename: "status-transformer-alias",
-  code: "function transformer(status, device) { return status; };",
-  params: {
-    status: "Battery 1.0V",
-    device: {
-      owner: "owner-id",
-      id: "device-id"
+  jobs: [
+    {
+    id: "transaction-identifier",
+    owner: "owner-id",
+    codename: "status-transformer-alias",
+    code: "function transformer(status, device) { return status; };",
+    params: {
+      status: "Battery 1.0V",
+      device: {
+        owner: "owner-id",
+        id: "device-id"
+      }
     }
-  }
+  ]
 }
 ```
 
@@ -46,5 +48,5 @@ curl -XPOST http://localhost:7474/do
 ```
 
 ```
-curl -XPOST -d '{ "job": { "id": "1", "owner": "demo", "codename": "alias", "code": "function transformer(status, device) { return status; };", "params": { "status": "Battery 1.0V", "device": { "owner": "demo", "id": server_id } } }' http://localhost:7474/do
+curl -XPOST -d '{ "jobs": [{ "id": "1", "owner": "demo", "codename": "alias", "code": "function transformer(status, device) { return status; };", "params": { "status": "Battery 1.0V", "device": { "owner": "demo", "id": server_id } } ] }' http://localhost:7474/do
 ```
