@@ -12,7 +12,7 @@ RUN git clone https://github.com/suculent/thinx-node-transformer && \
     cd ./thinx-node-transformer && \
     npm install .
 
-EXPOSE 7444
+EXPOSE 7474
 
 CMD ls -la && \
     cd /thinx-node-transformer && \

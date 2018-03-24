@@ -58,7 +58,7 @@ var Transformer = function() {
     limit: "1mb"
   }));
 
-  const http_port = 7444;
+  const http_port = 7474;
 
   http.createServer(app).listen(http_port);
 
@@ -84,7 +84,7 @@ var Transformer = function() {
 
 
   // Test handler
-  // curl http://localhost:7444/do
+  // curl http://localhost:7474/do
   //
   app.get("/do", function(req, res) {
 
