@@ -10,7 +10,7 @@ RUN apk update && apk upgrade && \
 RUN git clone https://github.com/suculent/thinx-node-transformer && \
     ls -la && \
     cd ./thinx-node-transformer && \
-    npm install . &&
+    npm install .
 
 EXPOSE 7444
 

@@ -6,14 +6,33 @@ Instance of Status Transformer NodeJS processor [thinx-node-transformer](https:/
 
 Instance should accept only local HTTP requests. Make sure its port is not exposed on host machine firewall.
 
-```
-
 `docker run suculent/thinx-node-transformer`
 
 ### Building the container
 
 `docker build -t suculent/thinx-node-transformer .`
 
+
+## Job Request Format
+
+HTTP POST BODY:
+
+```
+{
+  job: {
+  id: "transaction-identifier",
+  owner: "owner-id",
+  codename: "status-transformer-alias",
+  code: "function transformer(status, device) { return status; };",
+  params: {
+    status: "Battery 1.0V",
+    device: {
+      owner: "owner-id",
+      id: "device-id"
+    }
+  }
+}
+```
 
 ### Testing
 
