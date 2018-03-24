@@ -20,19 +20,13 @@ var Transformer = function() {
     }
   });
 
-  /*
   var Rollbar = require("rollbar");
+
   var rollbar = new Rollbar({
-    accessToken: config.rollbar.server_token,
+    accessToken: "5505bac5dc6c4542ba3bd947a150cb55",
     handleUncaughtExceptions: true,
-    handleUnhandledRejections: true,
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-    payload: {
-      environment: "production"
-    }
+    handleUnhandledRejections: true
   });
-  */
 
   function respond(res, object) {
     if (typeOf(object) == "buffer") {
