@@ -4,8 +4,15 @@ Instance of Status Transformer NodeJS processor [thinx-node-transformer](https:/
 
 ### Roadmap
 
-* Provide https
 * Provide API for Slack, Influx,...
+
+### Supported Modules (Public)
+
+_Feel free to submit proposals for adding more modules. Intention is to keep it small and safe._
+
+`base-64` : processed JavaScript must be safely encoded when transferred
+`ssl-root-cas` : https support
+
 
 ### Notes
 
@@ -29,7 +36,7 @@ HTTP POST BODY:
     id: "transaction-identifier",
     owner: "owner-id",
     codename: "status-transformer-alias",
-    code: "function transformer(status, device) { return status; };",
+    code: base64.encode("function transformer(status, device) { return status; };"),
     params: {
       status: "Battery 1.0V",
       device: {
@@ -39,14 +46,4 @@ HTTP POST BODY:
     }
   ]
 }
-```
-
-### Testing
-
-```
-curl -XPOST http://localhost:7474/do
-```
-
-```
-curl -XPOST -d '{ "jobs": [{ "id": "1", "owner": "demo", "codename": "alias", "code": "function transformer(status, device) { return status; };", "params": { "status": "Battery 1.0V", "device": { "owner": "demo", "id": server_id } } ] }' http://localhost:7474/do
 ```

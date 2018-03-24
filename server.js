@@ -5,6 +5,7 @@ var Transformer = function() {
   var http = require('http');
   var parser = require("body-parser");
   var typeOf = require("typeof");
+  var base64 = require("base-64");
 
   const uuidv1 = require('uuid/v1');
   const server_id = uuidv1();
@@ -97,13 +98,11 @@ var Transformer = function() {
     if (typeof(job) === "undefined") {
       console.log("ERR: NO JOB");
 
-      //code: "Ly8gTWluaW1hbCBgbm8tb3BgIFRyYW5zZm9ybWVyIChhbHdheXMgc3RhcnQgd2l0aCBjb21tZW50ISkKCnZhciB0cmFuc2Zvcm1lciA9IGZ1bmN0aW9uKHN0YXR1cywgZGV2aWNlKSB7CiAgICByZXR1cm4gc3RhdHVzOyAKfTs=",
-
-      jobs = [{
+        jobs = [{
         id: server_id,
         owner: "demo",
         codename: "alias",
-        code: "function transformer(status, device) { return status; };",
+        code: base64.encode("function transformer(status, device) { return status; };"),
         params: {
           status: "Battery 1.0V",
           device: {
@@ -116,12 +115,17 @@ var Transformer = function() {
       jobs = req.body.jobs;
     }
 
-    var result_status = null;
-    var result_error = null;
+    console.log("Running jobs: " + JSON.stringify(jobs));
 
     var input_raw = jobs[0].params.status;
+    console.log("Input: " + input_raw);
 
-    for (job in jobs) {
+    var status = input_raw;
+    var error = null;
+
+    for (job_index in jobs) {
+
+      const job = jobs[job_index];
 
       const code = job.code;
       const owner = job.owner;
@@ -131,31 +135,34 @@ var Transformer = function() {
         /* jshint -W061 */
         var cleancode;
         try {
-          cleancode = unescape(code);
+          cleancode = unescape(base64.decode(code));
         } catch (e) {
-          cleancode = code;
+          cleancode = unescape(code); // accept bare code for testing, will deprecate
         }
-        eval(code); // should fetch the transformer(status, device); function
+
+        console.log("Evaluating code: "+cleancode);
+
+        eval(cleancode); // expects transformer(status, device); function only; may provide API
+
         console.log("Running job:");
         console.log("- codename: "+job.codename);
         console.log("- id: "+job.id);
         console.log("- params: "+JSON.stringify(job.params));
         console.log("- owner: "+JSON.stringify(job.owner));
 
-        var transformed_status = transformer(job.params.status, job.params.device); // may be dangerous if not running in closure with cleaned globals!
-        console.log("Transformed status: '" + transformed_status + "'");
+        status = transformer(job.params.status, job.params.device); // may be dangerous if not running in closure with cleaned globals!
+        console.log("Transformed status: '" + status + "'");
         /* jshint +W061 */
-        result_status = transformed_status;
       } catch (e) {
         console.log(e);
-        result_error = JSON.stringify(e);
+        error = JSON.stringify(e);
       }
     }
 
     respond(res, {
       input: input_raw,
-      output: result_status,
-      error: result_error
+      output: status,
+      error: error
     });
 
   });

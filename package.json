@@ -4,7 +4,7 @@
   "description": "NodeJS Evaluation Serv er",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "bash ./test.sh",
     "start": "node server.js"
   },
   "repository": {
@@ -21,11 +21,13 @@
   },
   "homepage": "https://github.com/suculent/thinx-node-transformer#readme",
   "dependencies": {
+    "base-64": "^0.1.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "getmac": "^1.4.0",
     "parser": "^0.1.4",
+    "ssl-root-cas": "^1.2.4",
     "typeof": "^1.0.0",
     "uuid": "^3.2.1"
   }
