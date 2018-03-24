@@ -2,6 +2,11 @@
 
 Instance of Status Transformer NodeJS processor [thinx-node-transformer](https://github.com/suculent/thinx-node-tranformer) safely enclosed inside a docker image, so the app can run safely as root.
 
+### Roadmap
+
+* Provide https
+* Provide API for Slack, Influx,...
+
 ### Notes
 
 Instance should accept only local HTTP requests. Make sure its port is not exposed on host machine firewall.
