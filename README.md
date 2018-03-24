@@ -1,6 +1,16 @@
 # thinx-node-transformer
 
-Instance of Status Transformer NodeJS processor [thinx-node-transformer](https://github.com/suculent/thinx-node-tranformer) safely enclosed inside a docker image, so the app can run safely as root.
+Instance of NodeJS process [thinx-node-transformer](https://github.com/suculent/thinx-node-tranformer) safely enclosed inside a docker image. Takes jobs as HTTP posts and executes JavaScript code from job locally. 
+
+See example expected code at [THiNX Wiki](https://suculent/thinx-device-api)
+
+### Exceptionally dumb
+
+This instance does not support anything more than bare node.js server. **Please, ase for rewuired extensions.** We'll add https support and root certificates soon, but at this point, we expect tranformer issues with TLS/SSL connections.
+
+### No security expected
+
+This instance must be firewalled on port 7445. Must not be accessible except on localhost, where it is expected to execute primitive JavaScript in sandbox.
 
 ### Roadmap
 
