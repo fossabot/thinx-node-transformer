@@ -1,0 +1,32 @@
+{
+  "name": "thinx-node-transformer",
+  "version": "1.0.0",
+  "description": "NodeJS Evaluation Serv er",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/suculent/thinx-node-transformer.git"
+  },
+  "keywords": [
+    "THiNX"
+  ],
+  "author": "Matej Sychra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suculent/thinx-node-transformer/issues"
+  },
+  "homepage": "https://github.com/suculent/thinx-node-transformer#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "getmac": "^1.4.0",
+    "parser": "^0.1.4",
+    "typeof": "^1.0.0",
+    "uuid": "^3.2.1"
+  }
+}
