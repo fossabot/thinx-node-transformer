@@ -1,6 +1,6 @@
 # thinx-node-transformer
 
-Instance of NodeJS process [thinx-node-transformer](https://github.com/suculent/thinx-node-tranformer) safely enclosed inside a docker image. Takes jobs as HTTP posts and executes JavaScript code from job locally. 
+Instance of NodeJS process [thinx-node-transformer](https://github.com/suculent/thinx-node-tranformer) safely enclosed inside a docker image. Takes jobs as HTTP posts and executes JavaScript code from job locally.
 
 See example expected code at [THiNX Wiki](https://suculent/thinx-device-api)
 
@@ -28,7 +28,7 @@ _Feel free to submit proposals for adding more modules. Intention is to keep it 
 
 Instance should accept only local HTTP requests. Make sure its port is not exposed on host machine firewall.
 
-`docker run suculent/thinx-node-transformer`
+`docker run -d -p 7474:7474 suculent/thinx-node-transformer`
 
 ### Building the container
 
