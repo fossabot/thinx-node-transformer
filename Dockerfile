@@ -16,4 +16,4 @@ EXPOSE 7474
 
 CMD ls -la && \
     cd /thinx-node-transformer && \
-    node server.js
+    node server.js >> /logs/transformer.log
