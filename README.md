@@ -43,16 +43,17 @@ HTTP POST BODY:
 {
   jobs: [
     {
-    id: "transaction-identifier",
-    owner: "owner-id",
-    codename: "status-transformer-alias",
-    code: base64.encode("function transformer(status, device) { return status; };"),
-    params: {
-      status: "Battery 1.0V",
-      device: {
+        id: "transaction-identifier",
         owner: "owner-id",
-        id: "device-id"
-      }
+        codename: "status-transformer-alias",
+        code: base64.encode("function transformer(status, device) { return status; };"),
+        params: {
+          status: "Battery 1.0V",
+          device: {
+            owner: "owner-id",
+            id: "device-id"
+          }
+        }
     }
   ]
 }

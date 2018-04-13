@@ -79,35 +79,33 @@ var Transformer = function() {
 
   app.post("/do", function(req, res) {
 
-    var job;
+    //
+    // Input validation
+    //
+    //
+    console.log("body: "+JSON.stringify(req.body));
 
     if (typeof(req.body) === "undefined") {
-      console.log("POST /do: no body.");
-      //return;
-    } else {
-      job = req.body.job;
-      console.log("POST /do.");
+      respond(res, {
+	      success: false,
+	      error: "missing: body"
+	    });;
+      return;
     }
 
-    if (typeof(job) === "undefined") {
-      console.log("ERR: NO JOB");
-
-        jobs = [{
-        id: server_id,
-        owner: "demo",
-        codename: "alias",
-        code: base64.encode("function transformer(status, device) { return status; };"),
-        params: {
-          status: "Battery 1.0V",
-          device: {
-            owner: "demo",
-            id: server_id
-          }
-        }
-      }];
-    } else {
-      jobs = req.body.jobs;
+    if (typeof(req.body.jobs) === "undefined") {
+      respond(res, {
+	      success: false,
+	      error: "missing: body.jobs"
+	    });;
+      return;
     }
+
+    var jobs = req.body.jobs;
+
+    //
+    // Run loop
+    //
 
     console.log("Running jobs: " + JSON.stringify(jobs));
 
@@ -120,12 +118,14 @@ var Transformer = function() {
     for (job_index in jobs) {
 
       const job = jobs[job_index];
-
       const code = job.code;
       const owner = job.owner;
       const transaction_id = job.id;
 
       try {
+
+        var exec = null;
+
         /* jshint -W061 */
         var cleancode;
         try {
@@ -144,7 +144,7 @@ var Transformer = function() {
         console.log("- params: "+JSON.stringify(job.params));
         console.log("- owner: "+JSON.stringify(job.owner));
 
-        status = transformer(job.params.status, job.params.device); // may be dangerous if not running in closure with cleaned globals!
+        status = transformer(status, job.params.device); // passthrough previous status
         console.log("Transformed status: '" + status + "'");
         /* jshint +W061 */
       } catch (e) {
