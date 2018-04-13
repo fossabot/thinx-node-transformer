@@ -85,7 +85,6 @@ var Transformer = function() {
     // Input validation
     //
     //
-    console.log("body: "+JSON.stringify(req.body));
 
     if (typeof(req.body) === "undefined") {
       respond(res, {
@@ -108,8 +107,6 @@ var Transformer = function() {
     //
     // Run loop
     //
-
-    console.log("Running jobs: " + JSON.stringify(jobs));
 
     var input_raw = jobs[0].params.status;
     console.log("Input: " + input_raw);
