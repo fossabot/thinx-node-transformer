@@ -6,11 +6,11 @@ See example expected code at [THiNX Wiki](https://suculent/thinx-device-api)
 
 ### Exceptionally dumb
 
-This instance does not support anything more than bare node.js server. **Please, ase for rewuired extensions.** We'll add https support and root certificates soon, but at this point, we expect tranformer issues with TLS/SSL connections.
+This instance does not support anything more than bare node.js express server with https support. **Please, ask for required extensions or provide PR with usage example.**
 
-### No security expected
+### Security Note
 
-This instance must be firewalled on port 7445. Must not be accessible except on localhost, where it is expected to execute primitive JavaScript in sandbox.
+This instance must be firewalled on port 7445. Must not be accessible except on localhost, where it is expected to execute primitive JavaScript in sandbox. Expected to run in Docker. Supports outgoing HTTPS.
 
 ### Roadmap
 
@@ -26,7 +26,7 @@ _Feel free to submit proposals for adding more modules. Intention is to keep it 
 
 ### Notes
 
-Instance should accept only local HTTP requests. Make sure its port is not exposed on host machine firewall.
+Instance should accept only local HTTP requests. Make sure its port is not exposed on host machine firewall. 
 
 `docker run -d -p 7474:7474 -v $(pwd)/logs:/logs suculent/thinx-node-transformer`
 
