@@ -10,7 +10,7 @@ This instance does not support anything more than bare node.js express server wi
 
 ### Security Note
 
-This instance must be firewalled on port 7445. Must not be accessible except on localhost, where it is expected to execute primitive JavaScript in sandbox. Expected to run in Docker. Supports outgoing HTTPS.
+This instance must be firewalled. Must not be accessible except on localhost, where it is expected to execute primitive JavaScript in sandbox. Expected to run in Docker. Supports outgoing HTTPS.
 
 ### Roadmap
 
@@ -21,6 +21,7 @@ This instance must be firewalled on port 7445. Must not be accessible except on 
 _Feel free to submit proposals for adding more modules. Intention is to keep it small and safe._
 
 `base-64` : processed JavaScript must be safely encoded when transferred
+
 `ssl-root-cas` : https support
 
 
