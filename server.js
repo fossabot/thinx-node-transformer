@@ -104,6 +104,8 @@ var Transformer = function() {
 
     var jobs = req.body.jobs;
 
+    console.log("Jobs: " + JSON.stringify(jobs));
+
     //
     // Run loop
     //
