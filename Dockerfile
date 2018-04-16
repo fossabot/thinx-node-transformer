@@ -7,13 +7,9 @@ RUN apk update && apk upgrade && \
     npm --silent install --global --depth 0 pnpm && \
     rm -rf /var/cache/apk/*
 
-RUN git clone https://github.com/suculent/thinx-node-transformer && \
-    ls -la && \
-    cd ./thinx-node-transformer && \
-    npm install .
-
 EXPOSE 7474
 
-CMD ls -la && \
-    cd /thinx-node-transformer && \
+CMD cd /app && \
+    git pull origin master && \
+    npm install . && \
     node server.js >> /logs/transformer.log

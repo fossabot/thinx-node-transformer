@@ -29,7 +29,7 @@ _Feel free to submit proposals for adding more modules. Intention is to keep it 
 
 Instance should accept only local HTTP requests. Make sure its port is not exposed on host machine firewall.
 
-`docker run -d -p 7475:7474 -v $(pwd)/logs:/logs suculent/thinx-node-transformer`
+`docker run -d -p 7475:7474 -v $(pwd)/logs:/logs $(pwd):/app suculent/thinx-node-transformer`
 
 ### Building the container
 
@@ -49,7 +49,7 @@ HTTP POST BODY:
         codename: "status-transformer-alias",
         code: base64.encode("function transformer(status, device) { return status; };"),
         params: {
-          status: "Battery 1.0V",
+          status: "Battery 100.0V",
           device: {
             owner: "owner-id",
             id: "device-id"
