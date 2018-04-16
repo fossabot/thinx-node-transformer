@@ -94,20 +94,21 @@ var Transformer = function() {
       return;
     }
 
-    if (typeof(req.body.jobs) === "undefined") {
+    var ingress = JSON.parse(req.body);
+
+    console.log("Body: " + req.body);
+
+    var jobs = ingress.jobs;
+
+    console.log("Jobs: " + JSON.stringify(jobs));
+
+    if (typeof(ingress.jobs) === "undefined") {
       respond(res, {
 	      success: false,
 	      error: "missing: body.jobs"
 	    });;
       return;
     }
-
-    console.log("Body: " + req.body);
-
-    var jobs = req.body.jobs;
-
-    console.log("Jobs: " + JSON.stringify(jobs));
-
 
     //
     // Run loop
