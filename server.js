@@ -94,9 +94,16 @@ var Transformer = function() {
       return;
     }
 
-    var ingress = JSON.parse(req.body);
+    var ingress = req.body;
 
-    console.log("Body: " + req.body);
+    try {
+      ingress = JSON.parse(req.body);
+    } catch (e) {
+      ingress = req.body;
+    }
+
+    console.log("Ingress: " + ingress);
+    console.log("Ingress.json: " + JSON.stringify(ingress));
 
     var jobs = ingress.jobs;
 
