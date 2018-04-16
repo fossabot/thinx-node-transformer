@@ -10,6 +10,5 @@ RUN apk update && apk upgrade && \
 EXPOSE 7474
 
 CMD cd /app && \
-    git pull origin master && \
     npm install . && \
     node server.js >> /logs/transformer.log

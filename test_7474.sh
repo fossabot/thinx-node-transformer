@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/bash
 
 curl -vvv -XPOST \
 -H "Content-Type: application/json" \
