@@ -102,10 +102,12 @@ var Transformer = function() {
       return;
     }
 
-    var jobs = JSON.parse(req.body).jobs;
+    console.log("Body: " + req.body);
+
+    var jobs = req.body.jobs;
 
     console.log("Jobs: " + JSON.stringify(jobs));
-    console.log("Body: " + req.body);
+
 
     //
     // Run loop
