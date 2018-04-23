@@ -48,7 +48,7 @@ var Transformer = function() {
     var Rollbar = require("rollbar");
 
     var rollbar = new Rollbar({
-      accessToken: "5505bac5dc6c4542ba3bd947a150cb55",
+      accessToken: "2858ad77bbcc4b669e1f0dbd8c0b5809",
       handleUncaughtExceptions: true,
       handleUnhandledRejections: true
     });
