@@ -14,4 +14,4 @@ EXPOSE 7474
 CMD cd /app && \
     npm install . && \
     curl https://api.rollbar.com/api/1/deploy/ -F access_token=$RollbarToken -F environment=production -F revision=$(git log -n 1 --pretty=format:\"%H\") -F local_username=root \
-    node server.js >> /logs/transformer.log
+    node server.js >> /var/logs/transformer.log
