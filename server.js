@@ -4,7 +4,8 @@ var Transformer = function() {
   var session = require("express-session");
   var http = require('http');
   var https = require("https"); require('ssl-root-cas').inject();
-	https.globalAgent.options.ca = require('ssl-root-cas');
+	    https.globalAgent.options.ca = require('ssl-root-cas');
+      
   var parser = require("body-parser");
   var typeOf = require("typeof");
   var base64 = require("base-64");
@@ -64,7 +65,7 @@ var Transformer = function() {
       }
     }
 
-    console.log("Starting THiNX Transformer Server Node");
+    console.log("Starting THiNX Transformer Server Node at "+new Date().toString());
 
     var app = express();
 
@@ -125,12 +126,9 @@ var Transformer = function() {
         ingress = req.body;
       }
 
-      console.log("Ingress: " + ingress);
-      console.log("Ingress.json: " + JSON.stringify(ingress));
+      console.log("---");      
 
       var jobs = ingress.jobs;
-
-      console.log("Jobs: " + JSON.stringify(jobs));
 
       if (typeof(ingress.jobs) === "undefined") {
         respond(res, {
@@ -140,12 +138,13 @@ var Transformer = function() {
         return;
       }
 
+      console.log( new Date().toString() + "Incoming job." );
+
       //
       // Run loop
       //
 
       var input_raw = jobs[0].params.status;
-      console.log("Input: " + input_raw);
 
       var status = input_raw;
       var error = null;
@@ -156,6 +155,8 @@ var Transformer = function() {
         const code = job.code;
         const owner = job.owner;
         const transaction_id = job.id;
+
+        console.log(new Date().toString() + " job: " + JSON.stringify(job));
 
         try {
 
@@ -169,21 +170,15 @@ var Transformer = function() {
             cleancode = unescape(code); // accept bare code for testing, will deprecate
           }
 
-          console.log("Evaluating code: "+cleancode);
+          console.log("Running code:\n"+cleancode);
 
           eval(cleancode); // expects transformer(status, device); function only; may provide API
 
-          console.log("Running job:");
-          console.log("- codename: "+job.codename);
-          console.log("- id: "+job.id);
-          console.log("- params: "+JSON.stringify(job.params));
-          console.log("- owner: "+JSON.stringify(job.owner));
-
           status = transformer(status, job.params.device); // passthrough previous status
-          console.log("Transformed status: '" + status + "'");
+          console.log("Docker Transformer will return status: '" + status + "'");
           /* jshint +W061 */
         } catch (e) {
-          console.log(e);
+          console.log("Docker Transformer Ecception: " + e);
           error = JSON.stringify(e);
         }
       }
