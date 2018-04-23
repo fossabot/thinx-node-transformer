@@ -10,6 +10,8 @@ This instance does not support anything more than bare node.js express server wi
 
 ### Security Note
 
+First of all, generate your own Rollbar token, or remove the Rollbar implementation. Otherwise the project usage and errors will be tracked by us.
+
 This instance must be firewalled. Must not be accessible except on localhost, where it is expected to execute primitive JavaScript in sandbox. Expected to run in Docker. Supports outgoing HTTPS.
 
 ### Roadmap

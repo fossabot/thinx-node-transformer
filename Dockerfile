@@ -2,7 +2,7 @@ FROM dockette/alpine:3.6
 
 MAINTAINER Matej Sychra <suculent@me.com>
 
-ENV RollbarToken e81ab1434d684fc68e1b2a52b33f1c1a
+ENV RollbarToken 2858ad77bbcc4b669e1f0dbd8c0b5809
 
 RUN apk update && apk upgrade && \
     apk add nodejs-current-npm curl git && \
