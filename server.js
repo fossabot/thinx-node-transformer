@@ -3,12 +3,14 @@ var Transformer = function() {
   var express = require("express");
   var session = require("express-session");
   var http = require('http');
-  var https = require("https"); require('ssl-root-cas').inject();
-	    https.globalAgent.options.ca = require('ssl-root-cas');
-      
+  var https = require("https");
+  require('ssl-root-cas').inject();
+  https.globalAgent.options.ca = require('ssl-root-cas');
+
   var parser = require("body-parser");
   var typeOf = require("typeof");
   var base64 = require("base-64");
+  var base128 = require("base128");
 
   const uuidv1 = require('uuid/v1');
   const server_id = uuidv1();
@@ -65,7 +67,7 @@ var Transformer = function() {
       }
     }
 
-    console.log("Starting THiNX Transformer Server Node at "+new Date().toString());
+    console.log("Starting THiNX Transformer Server Node at " + new Date().toString());
 
     var app = express();
 
@@ -112,9 +114,9 @@ var Transformer = function() {
 
       if (typeof(req.body) === "undefined") {
         respond(res, {
-  	      success: false,
-  	      error: "missing: body"
-  	    });;
+          success: false,
+          error: "missing: body"
+        });;
         return;
       }
 
@@ -126,19 +128,19 @@ var Transformer = function() {
         ingress = req.body;
       }
 
-      console.log("---");      
+      console.log("---");
 
       var jobs = ingress.jobs;
 
       if (typeof(ingress.jobs) === "undefined") {
         respond(res, {
-  	      success: false,
-  	      error: "missing: body.jobs"
-  	    });;
+          success: false,
+          error: "missing: body.jobs"
+        });;
         return;
       }
 
-      console.log( new Date().toString() + "Incoming job." );
+      console.log(new Date().toString() + "Incoming job.");
 
       //
       // Run loop
@@ -164,13 +166,33 @@ var Transformer = function() {
 
           /* jshint -W061 */
           var cleancode;
-          try {
-            cleancode = unescape(base64.decode(code));
-          } catch (e) {
-            cleancode = unescape(code); // accept bare code for testing, will deprecate
+          var decoded = false;
+
+          if (decoded === false) {
+            try {
+              cleancode = unescape(base64.decode(code));
+              decoded = true;
+            } catch (e) {
+              console.log("Job is not a base64.");
+              decoded = false;
+            }
           }
 
-          console.log("Running code:\n"+cleancode);
+          if (decoded === false) {
+            try {
+              cleancode = unescape(base128.decode(code));
+              decoded = true;
+            } catch (e) {
+              console.log("Job is not a base128.");
+              decoded = false;
+            }
+          }
+
+          if (decoded === false) {
+              cleancode = unescape(code); // accept bare code for testing, will deprecate
+          }
+
+          console.log("Running code:\n" + cleancode);
 
           eval(cleancode); // expects transformer(status, device); function only; may provide API
 
