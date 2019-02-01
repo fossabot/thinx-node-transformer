@@ -1,9 +1,12 @@
 var Transformer = function() {
 
+  require('sqreen');
+  
   var express = require("express");
   var session = require("express-session");
   var http = require('http');
   var https = require("https");
+
   require('ssl-root-cas').inject();
   https.globalAgent.options.ca = require('ssl-root-cas');
 
