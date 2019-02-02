@@ -2,13 +2,14 @@ FROM node:10-alpine
 
 MAINTAINER Matej Sychra <suculent@me.com>
 
-RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python add curl git \
-    && npm --silent install --global --depth 0 pnpm
-
 # Sqreen.io token is inside a JSON file /app/sqreen.json
 COPY /app /home/node/app
 
 WORKDIR /home/node/app
+
+RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python curl git
+
+RUN npm --silent install --global --depth 0 pnpm
 
 # allow building native extensions with alpine: https://github.com/nodejs/docker-node/issues/384
 RUN npm install --quiet node-gyp -g
