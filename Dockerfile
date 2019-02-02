@@ -26,7 +26,7 @@ RUN addgroup -S thinx
 RUN adduser -S -D -h /home/node/app transformer thinx
 
 # Chown all the files to the app user.
-RUN chown -R node:node /home/node/app
+RUN chown -R transformer:thinx /home/node/app
 
 # Switch to 'transformer' or 'node' user
 USER transformer
