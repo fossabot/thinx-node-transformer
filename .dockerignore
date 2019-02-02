@@ -1,0 +1,5 @@
+node_modules
+logs
+secrets.sh
+
+app/node_modules
