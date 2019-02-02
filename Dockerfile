@@ -26,7 +26,7 @@ RUN adduser -S -D -h /home/node/app transformer thinx
 RUN chown -R node:node /home/node/app
 
 # Switch to 'transformer' or 'node' user
-USER node
+USER transformer
 
 # Open the mapped port
 EXPOSE 7474
