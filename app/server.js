@@ -1,7 +1,7 @@
 var Transformer = function() {
 
   require('sqreen');
-  
+
   var express = require("express");
   var session = require("express-session");
   var http = require('http');
@@ -53,8 +53,11 @@ var Transformer = function() {
 
     var Rollbar = require("rollbar");
 
+    // TODO: Load this token from a json config like sqreen.
+
+    var rbconfig = require("rollbar.json");
     var rollbar = new Rollbar({
-      accessToken: "2858ad77bbcc4b669e1f0dbd8c0b5809",
+      accessToken: rbconfig.token,
       handleUncaughtExceptions: true,
       handleUnhandledRejections: true
     });
