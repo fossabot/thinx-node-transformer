@@ -2,6 +2,11 @@
 
 Instance of NodeJS process [thinx-node-transformer](https://github.com/suculent/thinx-node-tranformer) safely enclosed inside a docker image. Takes jobs as HTTP posts and executes JavaScript code from job locally.
 
+**Before first run**
+
+1. Register at Sqreen.io and add token to ```/app/sqreen.json```
+2. Register at Rollbar.io and add your RollbarToken=<your-token> to ```.env``` file
+
 See example expected code at [THiNX Wiki](https://suculent/thinx-device-api)
 
 ### Exceptionally dumb
