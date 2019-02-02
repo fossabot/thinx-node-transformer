@@ -55,7 +55,7 @@ var Transformer = function() {
 
     // TODO: Load this token from a json config like sqreen.
 
-    var rbconfig = require("rollbar.json");
+    var rbconfig = require("./rollbar.json");
     var rollbar = new Rollbar({
       accessToken: rbconfig.token,
       handleUncaughtExceptions: true,
