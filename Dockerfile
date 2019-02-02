@@ -2,12 +2,8 @@ FROM node:10-alpine
 
 MAINTAINER Matej Sychra <suculent@me.com>
 
-RUN apk update \
-    && apk upgrade \
-    && apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python \
-    && apk add curl git \
-    && npm --silent install --global --depth 0 pnpm \
-    && rm -rf /var/cache/apk/*
+RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python add curl git \
+    && npm --silent install --global --depth 0 pnpm
 
 # Sqreen.io token is inside a JSON file /app/sqreen.json
 COPY /app /home/node/app

@@ -21,7 +21,7 @@
 		"start": "node server.js"
 	},
 	"dependencies": {
-		"joi": "^10.6.0",
+		"joi": "^14.3.1",
 		"base-64": "^0.1.0",
 		"base128": "^0.2.1",
 		"body-parser": "^1.18.2",
