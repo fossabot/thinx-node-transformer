@@ -29,6 +29,7 @@
 		"getmac": "^1.4.0",
 		"parser": "^0.1.4",
 		"rollbar": "^2.3.9",
+		"sqreen": "^1.29.0",
 		"ssl-root-cas": "^1.2.5",
 		"typeof": "^1.0.0",
 		"uuid": "^3.2.1"
