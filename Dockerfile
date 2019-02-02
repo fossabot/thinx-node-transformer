@@ -5,9 +5,12 @@ MAINTAINER Matej Sychra <suculent@me.com>
 ENV RollbarToken 2858ad77bbcc4b669e1f0dbd8c0b5809
 
 RUN apk update && apk upgrade && \
-    apk add nodejs-current-npm curl git && \
-    npm --silent install --global --depth 0 pnpm && \
+    apk --no-cache add --virtual native-deps \
+    g++ gcc libgcc libstdc++ linux-headers make python nodejs-current-npm curl git htop && \
+    npm install --quiet node-gyp -g &&\
+    npm install --global --depth 0 pnpm && \
     rm -rf /var/cache/apk/*
+
 
 EXPOSE 7474
 
