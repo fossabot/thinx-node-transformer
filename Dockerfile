@@ -7,7 +7,11 @@ COPY /app /home/node/app
 
 WORKDIR /home/node/app
 
-RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python curl git \
+# seems like the .env file is ignored?
+ENV Revision $(git log -n 1 --pretty=format:\"%H\")
+ENV RollbarToken 2858ad77bbcc4b669e1f0dbd8c0b5809
+
+RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python curl git jq \
     && npm --silent install --global --depth 0 pnpm
 
 # allow building native extensions with alpine: https://github.com/nodejs/docker-node/issues/384
@@ -31,6 +35,7 @@ USER transformer
 # Open the mapped port
 EXPOSE 7474
 
-CMD pwd && npm audit fix \
-    && curl -s https://api.rollbar.com/api/1/deploy/ -F access_token=$RollbarToken -F environment=production -F revision=$(git log -n 1 --pretty=format:\"%H\") -F local_username=$(whoami) \
+CMD echo "Running Rollbar Deploy..." \
+    && curl -s https://api.rollbar.com/api/1/deploy/ -F access_token=$RollbarToken -F environment=production -F revision=$Revision -F local_username=$(whoami) \
+    && echo "Running App..." \
     && node server.js
