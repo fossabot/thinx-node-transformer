@@ -3,7 +3,7 @@ FROM node:10-alpine
 MAINTAINER Matej Sychra <suculent@me.com>
 
 # seems like the .env file is ignored?
-ENV Revision $(git log -n 1 --pretty=format:\"%H\")
+ENV Revision
 ENV RollbarToken 2858ad77bbcc4b669e1f0dbd8c0b5809
 
 RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python curl git jq \
@@ -13,7 +13,7 @@ RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python curl g
 RUN npm --silent install --quiet node-gyp -g
 
 # Sqreen.io token is inside a JSON file /app/sqreen.json
-COPY /app /home/node/app
+COPY / /home/node
 
 WORKDIR /home/node/app
 
@@ -36,6 +36,6 @@ USER transformer
 EXPOSE 7474
 
 CMD echo "Running Rollbar Deploy..." \
-    && curl -s https://api.rollbar.com/api/1/deploy/ -F access_token=$RollbarToken -F environment=production -F revision=$Revision -F local_username=$(whoami) \
+    && curl -s https://api.rollbar.com/api/1/deploy/ -F access_token=$RollbarToken -F environment=production -F revision=$(git log -n 1 --pretty=format:\"%H\") -F local_username=$(whoami) \
     && echo "Running App..." \
     && node server.js
