@@ -7,12 +7,11 @@ COPY /app /home/node/app
 
 WORKDIR /home/node/app
 
-RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python curl git
-
-RUN npm --silent install --global --depth 0 pnpm
+RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python curl git \
+    && npm --silent install --global --depth 0 pnpm
 
 # allow building native extensions with alpine: https://github.com/nodejs/docker-node/issues/384
-RUN npm install --quiet node-gyp -g
+RUN npm --silent install --quiet node-gyp -g
 
 # Running npm install for production purpose will not run dev dependencies.
 RUN npm install -only=production
@@ -34,4 +33,4 @@ EXPOSE 7474
 
 CMD pwd && npm audit fix \
     && curl -s https://api.rollbar.com/api/1/deploy/ -F access_token=$RollbarToken -F environment=production -F revision=$(git log -n 1 --pretty=format:\"%H\") -F local_username=$(whoami) \
-    && node server.js >> /logs/transformer.log
+    && node server.js
