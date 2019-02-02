@@ -2,11 +2,6 @@ FROM node:10-alpine
 
 MAINTAINER Matej Sychra <suculent@me.com>
 
-# Sqreen.io token is inside a JSON file /app/sqreen.json
-COPY /app /home/node/app
-
-WORKDIR /home/node/app
-
 # seems like the .env file is ignored?
 ENV Revision $(git log -n 1 --pretty=format:\"%H\")
 ENV RollbarToken 2858ad77bbcc4b669e1f0dbd8c0b5809
@@ -16,6 +11,11 @@ RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python curl g
 
 # allow building native extensions with alpine: https://github.com/nodejs/docker-node/issues/384
 RUN npm --silent install --quiet node-gyp -g
+
+# Sqreen.io token is inside a JSON file /app/sqreen.json
+COPY /app /home/node/app
+
+WORKDIR /home/node/app
 
 # Running npm install for production purpose will not run dev dependencies.
 RUN npm install -only=production
