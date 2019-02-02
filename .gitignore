@@ -1,4 +1,5 @@
-node_modules
 logs
-
 secrets.sh
+.env
+app/node_modules
+app/package-lock.json
