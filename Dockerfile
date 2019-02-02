@@ -1,9 +1,8 @@
-ode:10-alpine
+FROM node:10-alpine
 
 MAINTAINER Matej Sychra <suculent@me.com>
 
 # seems like the .env file is ignored?
-ENV Revision
 ENV RollbarToken 2858ad77bbcc4b669e1f0dbd8c0b5809
 
 RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python curl git jq \
