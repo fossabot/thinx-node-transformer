@@ -1,0 +1,7 @@
+version: '2'
+services:
+  transformer:
+    image: suculent/thinx-node-transformer
+    ports:
+      - "7476:7474"
+    restart: always

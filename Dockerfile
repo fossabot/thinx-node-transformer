@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:11-alpine
 
 MAINTAINER Matej Sychra <suculent@me.com>
 
@@ -30,6 +30,8 @@ RUN chown -R transformer:thinx /home/node/app
 
 # Switch to 'transformer' or 'node' user
 USER transformer
+
+RUN node --version
 
 # Open the mapped port
 EXPOSE 7474
