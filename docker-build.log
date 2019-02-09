@@ -1,0 +1,99 @@
+Sending build context to Docker daemon  1.044MB
+Step 1/14 : FROM node:10-alpine
+ ---> fe6ff768f798
+Step 2/14 : MAINTAINER Matej Sychra <suculent@me.com>
+ ---> Using cache
+ ---> 0393bc90c139
+Step 3/14 : ENV RollbarToken 2858ad77bbcc4b669e1f0dbd8c0b5809
+ ---> Using cache
+ ---> 03b8ee47e16c
+Step 4/14 : RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python curl git jq     && npm --silent install --global --depth 0 pnpm
+ ---> Using cache
+ ---> 42f874034bd0
+Step 5/14 : RUN npm --silent install --quiet node-gyp -g
+ ---> Using cache
+ ---> 30de232de29a
+Step 6/14 : COPY / /home/node
+ ---> 912b67ce57a7
+Step 7/14 : WORKDIR /home/node/app
+ ---> Running in df187cd821ab
+Removing intermediate container df187cd821ab
+ ---> 004be8300eab
+Step 8/14 : RUN npm install -only=production
+ ---> Running in f11435ca17de
+[91mnpm[0m[91m [0m[91mWARN[0m[91m [0m[91mdeprecated[0m[91m joi@10.6.0: This version is no longer maintained. Please upgrade to the latest version.
+[0m
+> base128@0.2.1 install /home/node/app/node_modules/base128
+> node-gyp rebuild
+
+make: Entering directory '/home/node/app/node_modules/base128/build'
+  CXX(target) Release/obj.target/base128/src/base128.o
+[91m../src/base128.cc: In function 'Nan::NAN_METHOD_RETURN_TYPE Decode(Nan::NAN_METHOD_ARGS_TYPE)':
+../src/base128.cc:14:56: warning: 'v8::Local<v8::Object> v8::Value::ToObject() const' is deprecated: Use maybe version [-Wdeprecated-declarations]
+   v8::Local<v8::Object> buffer_obj = info[0]->ToObject();
+                                                        ^
+[0m[91mIn file included from /root/.node-gyp/10.15.1/include/node/node.h:63:0,
+                 from ../src/base128.cc:1:
+/root/.node-gyp/10.15.1/include/node/v8.h:10046:15: note: declared here
+ Local<Object> Value::ToObject() const {
+               ^~~~~
+[0m[91m../src/base128.cc:15:56: warning: 'v8::Local<v8::Object> v8::Value::ToObject() const' is deprecated: Use maybe version [-Wdeprecated-declarations]
+   v8::Local<v8::Object> result_obj = info[1]->ToObject();
+                                                        ^
+[0m[91mIn file included from /root/.node-gyp/10.15.1/include/node/node.h:63:0,
+                 from ../src/base128.cc:1:
+/root/.node-gyp/10.15.1/include/node/v8.h:10046:15: note: declared here
+ Local<Object> Value::ToObject() const {
+               ^~~~~
+[0m[91m../src/base128.cc: In function 'Nan::NAN_METHOD_RETURN_TYPE Encode(Nan::NAN_METHOD_ARGS_TYPE)':
+../src/base128.cc:68:56: warning: 'v8::Local<v8::Object> v8::Value::ToObject() const' is deprecated: Use maybe version [-Wdeprecated-declarations]
+   v8::Local<v8::Object> buffer_obj = info[0]->ToObject();
+                                                        ^
+[0m[91mIn file included from /root/.node-gyp/10.15.1/include/node/node.h:63:0,
+                 from ../src/base128.cc:1:
+/root/.node-gyp/10.15.1/include/node/v8.h:10046:15: note: declared here
+ Local<Object> Value::ToObject() const {
+               ^~~~~
+[0m[91m../src/base128.cc:69:56: warning: 'v8::Local<v8::Object> v8::Value::ToObject() const' is deprecated: Use maybe version [-Wdeprecated-declarations]
+   v8::Local<v8::Object> result_obj = info[1]->ToObject();
+                                                        ^
+[0m[91mIn file included from /root/.node-gyp/10.15.1/include/node/node.h:63:0,
+                 from ../src/base128.cc:1:
+/root/.node-gyp/10.15.1/include/node/v8.h:10046:15: note: declared here
+ Local<Object> Value::ToObject() const {
+               ^~~~~
+[0m  SOLINK_MODULE(target) Release/obj.target/base128.node
+  COPY Release/base128.node
+make: Leaving directory '/home/node/app/node_modules/base128/build'
+[91mnpm[0m[91m [0m[91mnotice[0m[91m created a lockfile as package-lock.json. You should commit this file.
+[0madded 139 packages from 108 contributors and audited 274 packages in 13.17s
+found 0 vulnerabilities
+
+Removing intermediate container f11435ca17de
+ ---> 0f7e51bb7da1
+Step 9/14 : RUN addgroup -S thinx
+ ---> Running in c4d96159ab43
+Removing intermediate container c4d96159ab43
+ ---> 2ab2c2cf3527
+Step 10/14 : RUN adduser -S -D -h /home/node/app transformer thinx
+ ---> Running in 672e377603b7
+Removing intermediate container 672e377603b7
+ ---> 078623d22c79
+Step 11/14 : RUN chown -R transformer:thinx /home/node/app
+ ---> Running in f1d6562c2feb
+Removing intermediate container f1d6562c2feb
+ ---> e67e86356d41
+Step 12/14 : USER transformer
+ ---> Running in 25b93a111dc9
+Removing intermediate container 25b93a111dc9
+ ---> 2022dadd90aa
+Step 13/14 : EXPOSE 7474
+ ---> Running in fa431ba87c66
+Removing intermediate container fa431ba87c66
+ ---> a51b2326d83c
+Step 14/14 : CMD echo "Running Rollbar Deploy..."     && curl -s https://api.rollbar.com/api/1/deploy/ -F access_token=$RollbarToken -F environment=production -F revision=$(git log -n 1 --pretty=format:\"%H\") -F local_username=$(whoami)     && echo "Running App..."     && node --version     && node server.js
+ ---> Running in 00ab96c6914e
+Removing intermediate container 00ab96c6914e
+ ---> 430592f6a686
+Successfully built 430592f6a686
+Successfully tagged suculent/thinx-node-transformer:latest
